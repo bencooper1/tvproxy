@@ -1,0 +1,11 @@
+# TVProxy detekt configuration.
+# buildUponDefaultConfig = true in build.gradle.kts, so this file only overrides defaults.
+build:
+  maxIssues: 0
+
+config:
+  validation: true
+
+style:
+  MagicNumber:
+    active: false

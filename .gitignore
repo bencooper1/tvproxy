@@ -1,0 +1,18 @@
+# Android / Gradle
+*.iml
+.gradle/
+.idea/
+build/
+local.properties
+captures/
+.externalNativeBuild/
+.cxx/
+*.apk
+*.aab
+*.keystore
+
+# macOS
+.DS_Store
+
+# Logs
+*.log
