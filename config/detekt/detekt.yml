@@ -9,3 +9,7 @@ config:
 style:
   MagicNumber:
     active: false
+  # Tests use descriptive underscore/backtick names (e.g. `parse_ignoresMalformedLines`);
+  # allow them while keeping production naming strict.
+  FunctionNaming:
+    ignoreAnnotated: ['Test', 'Composable']

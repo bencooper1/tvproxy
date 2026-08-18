@@ -14,10 +14,12 @@ detekt {
         "app/src/test/java",
         "app/src/androidTest/java"
     )
-    warningsAsErrors = true
 }
 
 tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
+    // `warningsAsErrors` exists on the Detekt *task* type, not on the extension —
+    // setting it inside the `detekt { }` block fails root-script compilation in CI.
+    warningsAsErrors = true
     reports {
         html.required.set(true)
         sarif.required.set(true)
