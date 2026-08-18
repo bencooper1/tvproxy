@@ -3,6 +3,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt.android)
 }
 
 android {
@@ -58,6 +60,10 @@ android {
         abortOnError = true
         checkReleaseBuilds = false
     }
+
+    testOptions {
+        unitTests.isIncludeAndroidResources = true
+    }
 }
 
 dependencies {
@@ -66,15 +72,34 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.timber)
 
-    // Unit test rig (M0): JUnit4 + Truth + Turbine + MockWebServer (+ coroutines-test)
+    // M1 data layer — persistence
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.datastore.preferences)
+
+    // M1 data layer — DI
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+
+    // M1 data layer — Xtream API (Retrofit + Moshi codegen)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.moshi)
+    implementation(libs.moshi)
+    ksp(libs.moshi.kotlin.codegen)
+
+    // Unit test rig (M0/M1): JUnit4 + Truth + Turbine + MockWebServer (+ coroutines-test),
+    // Robolectric for Room repository tests on the JVM, kxml2 for XMLTV parser tests
     testImplementation(libs.junit)
     testImplementation(libs.truth)
     testImplementation(libs.turbine)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.okhttp)
     testImplementation(libs.mockwebserver)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.kxml2)
 
-    // Instrumented test rig (M0 smoke test)
+    // Instrumented test rig (M0 smoke test + M1 DB test)
     androidTestImplementation(libs.androidx.test.core.ktx)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.androidx.test.runner)

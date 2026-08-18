@@ -2,10 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--
-        M0 placeholder manifest. Playlist/Xtream network permissions are declared
-        when the data layer lands (M1). Player foreground-service declarations
-        land with the player engine (M2).
+        M1: network permissions for playlist/Xtream/EPG fetches. IPTV providers
+        commonly serve plain-HTTP URLs, hence usesCleartextTraffic=true below.
+        Player foreground-service declarations land with the player engine (M2).
     -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".TvProxyApplication"
@@ -13,7 +15,8 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.TvProxy">
+        android:theme="@style/Theme.TvProxy"
+        android:usesCleartextTraffic="true">
 
         <activity
             android:name=".MainActivity"
