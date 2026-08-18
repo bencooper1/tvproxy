@@ -66,7 +66,14 @@ Each milestone is a shippable, test-gated increment. A milestone is **Done** onl
 - **Deliverables:** Gradle project scaffold, module/package layout (`architecture.md` §5), lint + detekt config, unit-test rig, GitHub Actions CI (build + lint + unit tests + instrumented tests on API 23 and API 35 emulators), README + this documentation set.
 - **Acceptance criteria:** `./gradlew assembleDebug` green on CI; lint 0 errors; sample unit test runs; API 23 emulator boots and runs a smoke instrumented test.
 - **Test gate:** CI green on PR; manual `gradlew` build on clean checkout.
-- **Status:** 🏗️ Partially done — project docs (this file, `architecture.md`, `agents.md`, `decisions.md`) ✅; Gradle scaffold ⬜ (next).
+- **Status:** 🏗️ Scaffold complete and pushed (`a4f6015`): Gradle 8.11.1 wrapper, version
+  catalog, `:app` module (minSdk 23 / targetSdk 35 / ABI splits / R8), unit-test rig with
+  smoke tests, placeholder app, lint + detekt config, docs. ⛔ **Blocked:** the CI workflow
+  (`.github/workflows/ci.yml`, local commit `f4f16e9`) **cannot be pushed** — the GitHub App
+  token in the build sandbox lacks the `workflows` permission. Note: the sandbox egress
+  allowlist blocks Maven Central/Google Maven/Gradle hosts, so `./gradlew` cannot run
+  locally; GitHub Actions is the verification bed for this milestone. **Unblock:** reconnect
+  GitHub in Arena (grant `workflows` permission) → push `f4f16e9` → CI runs the full gate.
 
 ### M1 — Data layer (playlists + EPG ingest)
 - **Owner:** Agent A2 · **Depends on:** M0

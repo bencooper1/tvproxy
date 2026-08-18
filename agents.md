@@ -26,7 +26,7 @@ before the next milestone gate. Milestones are defined in `plan.md`.
 
 | Milestone | Title | Overall status | Test gate |
 |---|---|---|---|
-| M0 | Foundation & CI | 🏗️ Docs ✅, Gradle scaffold ⬜ | CI green |
+| M0 | Foundation & CI | 🏗️ Scaffold ✅ pushed (`a4f6015`); CI ⛔ blocked (B1: `workflows` permission) | CI green (pending) |
 | M1 | Data layer | ⬜ | Unit PASS |
 | M2 | Player engine | ⬜ | Instrumented PASS |
 | M3 | Live TV UI | ⬜ | Manual matrix L* |
@@ -36,10 +36,21 @@ before the next milestone gate. Milestones are defined in `plan.md`.
 | M7 | Settings & personalization | ⬜ | Manual matrix S* |
 | M8 | Hardening & release | ⬜ | Full regression |
 
-**Honest baseline:** this repo currently contains **documentation only** (`README.md`,
-`plan.md`, `architecture.md`, `agents.md`, `decisions.md`). No application code, tests, or
-build files exist yet. All code tasks below are therefore ⬜ Planned with test result `—`;
-they are sequenced by milestone so the board can be filled in as work lands.
+**Honest baseline:** this repo contains project docs plus the **M0 scaffold** (Gradle wrapper,
+version catalog, `:app` module with minSdk 23 / targetSdk 35, ABI splits, R8 config, unit-test
+rig with two smoke tests, placeholder `Application`/`MainActivity`, lint + detekt config),
+committed and pushed as `a4f6015`. **All verification is pending CI** — the sandbox egress
+allowlist blocks Maven Central/Google Maven/Gradle hosts, so builds can only run on GitHub
+Actions; and the CI workflow push is **⛔ blocked** on the GitHub App `workflows` permission
+(see blockers below). Code tasks are otherwise sequenced by milestone so this board can be
+filled in as work lands.
+
+### Current blockers
+
+| # | Blocker | Affects | Workaround / next step |
+|---|---|---|---|
+| B1 | GitHub App token lacks `workflows` permission → cannot push `.github/workflows/ci.yml` (local commit `f4f16e9`) | M0 test gate (CI) | User reconnects GitHub in Arena with `workflows` permission; then push `f4f16e9` and run CI |
+| B2 | Sandbox egress allowlist (GitHub-only) → no local Gradle/Android SDK/Maven access | Any local build attempt | All builds/tests run in GitHub Actions CI; local verification not possible in this sandbox |
 
 ---
 
@@ -52,10 +63,10 @@ they are sequenced by milestone so the board can be filled in as work lands.
 | # | Task | Status | Test result | Evidence / notes | Next step |
 |---|---|---|---|---|---|
 | 1.1 | Project docs (plan, architecture, agents, decisions, README) | ✅ Done | — | Docs-only deliverable, committed 2026-08-18 | Review by A8 QA |
-| 1.2 | Gradle scaffold: Kotlin DSL, version catalog, minSdk 23 / target 35, split APKs | ⬜ Planned | — | — | **M0:** scaffold + `assembleDebug` |
-| 1.3 | CI: build + lint + detekt + unit tests; instrumented jobs on API 23 & API 35 emulators | ⬜ Planned | — | — | **M0:** green CI on first PR |
-| 1.4 | Baseline unit-test rig (JUnit4, Truth, Turbine, MockWebServer) | ⬜ Planned | — | — | **M0** |
-| 1.5 | R8/ProGuard rules + release signing (debug keystore for now) | ⬜ Planned | — | — | **M8** (draft in M0) |
+| 1.2 | Gradle scaffold: Kotlin DSL, version catalog, minSdk 23 / target 35, split APKs | ✅ Done | — (CI pending) | Commit `a4f6015`; wrapper 8.11.1, catalog, `:app` module, ABI splits + universal | Verify via CI `assembleDebug` + `assembleRelease` |
+| 1.3 | CI: build + lint + detekt + unit tests; instrumented jobs on API 23 & API 35 emulators | ⛔ Blocked | — | Workflow written, local commit `f4f16e9`; push rejected — GitHub App lacks `workflows` permission (B1) | Reconnect GitHub in Arena → push `f4f16e9` → drive CI green |
+| 1.4 | Baseline unit-test rig (JUnit4, Truth, Turbine, MockWebServer) | ✅ Done | — (CI pending) | Deps in catalog + 2 smoke tests (`MockWebServerRigTest`, `FlowRigTest`) committed | Verify via CI `testDebugUnitTest` |
+| 1.5 | R8/ProGuard rules + release signing (debug keystore for now) | ✅ Done (draft) | — (CI pending) | `proguard-rules.pro` + release build config (minify, shrink) committed; signing deferred to M8 | Verify via CI `assembleRelease` |
 
 ---
 

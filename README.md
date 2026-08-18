@@ -8,9 +8,12 @@ subscription, and no ads**.
 > Clean-room implementation: features and interface modeled on TiviMate, but no TiviMate code,
 > assets, or branding. See [decisions.md](decisions.md) ADR-001.
 
-**Status (2026-08-18):** **M0 (Foundation & CI) — scaffold complete**, CI-verified on GitHub Actions
-(unit tests, lint, detekt, debug+release builds, instrumented smoke tests on API 23 & API 35
-emulators). Next: **M1** data layer. See [agents.md](agents.md) for the live board.
+**Status (2026-08-18):** **M0 (Foundation & CI) — scaffold complete and pushed** (Gradle 8.11.1
+wrapper, version catalog, `:app` module with minSdk 23 / targetSdk 35, ABI-split APKs, R8
+config, unit-test rig with smoke tests, placeholder app, lint + detekt config).
+⚠️ **CI activation blocked:** the CI workflow is committed locally but cannot be pushed until
+the GitHub connection is re-authorized with the `workflows` permission (see
+[agents.md](agents.md) blocker B1). Next milestone: **M1** data layer.
 
 ## Building
 
