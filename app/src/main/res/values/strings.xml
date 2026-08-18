@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TVProxy</string>
+    <string name="placeholder_title">TVProxy — M0 scaffold\n(features land in M3+)</string>
+</resources>

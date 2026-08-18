@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- M0 placeholder theme. Material 3 theme lands with the Compose UI (M3). -->
+    <style name="Theme.TvProxy" parent="Theme.AppCompat.Light.NoActionBar" />
+</resources>
